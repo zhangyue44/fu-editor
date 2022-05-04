@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      href="https://cdn.quilljs.com/1.3.6/quill.snow.css"
+      rel="stylesheet"
+    />
+    <!-- <link rel="stylesheet" href="//cdn.quilljs.com/1.3.6/quill.bubble.css"> -->
+    <title>Document</title>
+  </head>
+  <body>
+    <!-- <div id="toolbar">
+    <button class="ql-bold">Bold</button>
+    <button class="ql-italic">Italic</button>
+  </div> -->
+    <div id="editor">
+      <p>Hello World!</p>
+    </div>
+    <script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
+    <script>
+      var toolbarOptions = [
+        ["bold", "italic", "underline", "strike"], // toggled buttons
+        ["blockquote", "code-block"],
+        ["link", "image", "video"],
+        [{ header: 1 }, { header: 2 }], // custom button values
+        [{ list: "ordered" }, { list: "bullet" }],
+        [{ script: "sub" }, { script: "super" }], // superscript/subscript
+        [{ indent: "-1" }, { indent: "+1" }], // outdent/indent
+        [{ direction: "rtl" }], // text direction
+        [{ size: ["small", false, "large", "huge"] }], // custom dropdown
+        [{ header: [1, 2, 3, 4, 5, 6, false] }],
+        [{ color: [] }, { background: [] }], // dropdown with defaults from theme
+        [{ font: [] }],
+        [{ align: [] }],
+        ["clean"], // remove formatting button
+      ];
+      var editor = new Quill("#editor", {
+        // debug: 'info',
+        modules: { toolbar: toolbarOptions },
+        // modules: { toolbar: '#toolbar' },
+        placeholder: "Compose an epic...",
+        // readOnly: true, // 只读
+        // theme: "bubble",
+        theme: "snow",
+      });
+      editor.deleteText(1, 2); // index length
+      console.log(editor.getContents());
+      console.log(editor.getLength());
+      console.log(editor.getText());
+      console.log(editor.getText(0, 3)); // index length
+      editor.insertEmbed(
+        10,
+        "image",
+        "https://img-blog.csdnimg.cn/2631d514f6c3497a9afa6de130108e27.png"
+      ); // index type value
+      editor.insertText(0, "Hello", "bold", true);
+      editor.insertText(5, "Quill", {
+        color: "#ffff00",
+        italic: true,
+      });
+      editor.setContents([
+        // 更换内容
+        { insert: "Hello " },
+        { insert: "World!", attributes: { bold: true } },
+        { insert: "\n" },
+      ]);
+      editor.setText("Hello\n");
+      editor.format("color", "red");
+      // editor.format('align', 'right');
+      var range = editor.getSelection();
+      editor.setSelection(0, 5);
+      editor.blur();
+      editor.focus();
+      editor.update();
+      console.log(range);
+      console.log(editor);
+      editor.on("text-change", function (delta, oldDelta, source) {
+        if (source == "api") {
+          console.log("An API call triggered this change.");
+        } else if (source == "user") {
+          console.log("A user action triggered this change.");
+        }
+      });
+      // var Module = Quill.import('core/module');
+      // class CustomModule extends Module {}
+      // Quill.register('modules/custom-module', CustomModule);
+    </script>
+  </body>
+</html>
